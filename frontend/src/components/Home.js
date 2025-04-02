@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ErrorBoundary from './ErrorBoundary';
 
 function Home({ user, onLogout }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -7,16 +8,13 @@ function Home({ user, onLogout }) {
     setIsLoading(true);
     
     try {
-      // 실제 백엔드가 구현되면 로그아웃 API 호출
-      // await fetch('api/logout', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      //   }
-      // });
+      await fetch('api/logout', {
+        method: 'POST',
+        headers: {
+          'access': `${localStorage.getItem('authToken')}`
+        }
+      });
       
-      // 로컬 스토리지에서 토큰 제거
-      localStorage.removeItem('authToken');
       onLogout();
     } catch (error) {
       console.error('로그아웃 중 오류 발생:', error);
