@@ -12,7 +12,8 @@ app.use(cors({
   origin: true, // 모든 오리진 허용
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'access']
+  allowedHeaders: ['Content-Type', 'Authorization', 'access'],
+  exposedHeaders: ['access'] // 응답에서 access 헤더를 노출
 }));
 
 // 요청 로깅 미들웨어
@@ -46,7 +47,7 @@ const startServer = async () => {
     // 서버 시작
     app.listen(PORT, () => {
       console.log(`서버가 ${PORT} 포트에서 실행 중입니다.`);
-      console.log(`CORS 설정: 모든 오리진 허용`);
+      console.log(`CORS 설정: 모든 오리진 허용, access 헤더 노출`);
     });
   } catch (error) {
     console.error('서버 시작 실패:', error);
