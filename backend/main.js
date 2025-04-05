@@ -27,8 +27,8 @@ app.use((req, res, next) => {
 });
 
 const options = {
-  key: fs.readFileSync('/home/jh/ssl/private.key'),
-  cert: fs.readFileSync('/home/jh/ssl/certificate.crt')
+  key: fs.readFileSync('/etc/letsencrypt/live/mongdangbul.store/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/mongdangbul.store/fullchain.pem')
 };
 
 // 미들웨어
