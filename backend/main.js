@@ -51,9 +51,9 @@ const startServer = async () => {
     // 데이터베이스 초기화
     await initializeDatabase();
     
-    // 서버 시작
-    app.listen(PORT, () => {
-      console.log(`서버가 ${PORT} 포트에서 실행 중입니다.`);
+    // HTTP 서버 대신 HTTPS 서버 시작
+    https.createServer(options, app).listen(PORT, () => {
+      console.log(`HTTPS 서버가 ${PORT} 포트에서 실행 중입니다.`);
       console.log(`CORS 설정: 모든 오리진 허용, access 헤더 노출`);
     });
   } catch (error) {
