@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 require('dotenv').config();
 const { initializeDatabase } = require('./src/config/db');
 const globalExceptionHandler = require('./src/global/globalExceptionHandler');
@@ -23,6 +25,11 @@ app.use((req, res, next) => {
   console.log('Headers:', JSON.stringify(req.headers));
   next();
 });
+
+const options = {
+  key: fs.readFileSync('/home/jh/ssl/private.key'),
+  cert: fs.readFileSync('/home/jh/ssl/certificate.crt')
+};
 
 // 미들웨어
 app.use(express.json());
