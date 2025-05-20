@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/newlionfront/static/css/main.b1038ff0.css",
+    "main.js": "/newlionfront/static/js/main.f4a9ad21.js",
+    "static/js/453.56f46472.chunk.js": "/newlionfront/static/js/453.56f46472.chunk.js",
+    "index.html": "/newlionfront/index.html",
+    "main.b1038ff0.css.map": "/newlionfront/static/css/main.b1038ff0.css.map",
+    "main.f4a9ad21.js.map": "/newlionfront/static/js/main.f4a9ad21.js.map",
+    "453.56f46472.chunk.js.map": "/newlionfront/static/js/453.56f46472.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b1038ff0.css",
+    "static/js/main.f4a9ad21.js"
+  ]
+}
