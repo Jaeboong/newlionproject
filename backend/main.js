@@ -1,10 +1,11 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors')
 const https = require('https');
 const fs = require('fs');
 require('dotenv').config();
 const { initializeDatabase } = require('./src/config/db');
 const globalExceptionHandler = require('./src/global/globalExceptionHandler');
+const { initializeSocketServer } = require('./src/socket/socketServer');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// HTTPS 설정
 const options = {
   key: fs.readFileSync('/etc/letsencrypt/live/mongdangbul.store/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/mongdangbul.store/fullchain.pem')
@@ -33,9 +35,6 @@ const options = {
 
 // 미들웨어
 app.use(express.json());
-
-// 인증 라우트 - 모든 인증 관련 엔드포인트는 auth.js에서 처리
-app.use('/api', require('./src/routes/auth'));
 
 // 기본 경로
 app.get('/', (req, res) => {
@@ -45,16 +44,23 @@ app.get('/', (req, res) => {
 // 글로벌 예외 처리기
 app.use(globalExceptionHandler);
 
+// HTTPS 서버 생성
+const server = https.createServer(options, app);
+
+// Socket.IO 서버 초기화
+const io = initializeSocketServer(server);
+
 // 데이터베이스 초기화 및 서버 시작
 const startServer = async () => {
   try {
     // 데이터베이스 초기화
     await initializeDatabase();
     
-    // HTTP 서버 대신 HTTPS 서버 시작
-    https.createServer(options, app).listen(PORT, () => {
+    // HTTPS 서버 시작
+    server.listen(PORT, () => {
       console.log(`HTTPS 서버가 ${PORT} 포트에서 실행 중입니다.`);
-      console.log(`CORS 설정: 모든 오리진 허용, access 헤더 노출`);
+      console.log(`Socket.IO 서버가 초기화되었습니다.`);
+      console.log(`CORS 설정: 모든 오리진 허용`);
     });
   } catch (error) {
     console.error('서버 시작 실패:', error);
@@ -62,4 +68,4 @@ const startServer = async () => {
   }
 };
 
-startServer(); 
+startServer();
